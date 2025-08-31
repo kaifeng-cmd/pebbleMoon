@@ -1,0 +1,25 @@
+[global]
+developmentMode = false
+showWarningOnDirectExecution = false
+
+[client]
+showSidebarNavigation = true
+showErrorDetails = false
+showDebugDetails = false
+
+[theme]
+primaryColor = "#FF6B9D"
+backgroundColor = "#FFF5F7"
+secondaryBackgroundColor = "#FCE4EC"
+textColor = "#2D3748"
+font = "sans serif"
+
+[browser]
+gatherUsageStats = false
+
+[server]
+headless = true
+enableCORS = false
+enableXsrfProtection = true
+maxUploadSize = 50
+
