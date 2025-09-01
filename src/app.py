@@ -5,7 +5,6 @@ from .auth import Auth, AuthError
 from .chat import ChatManager
 from .database import Database
 
-
 Config.validate()
 
 auth = Auth()
@@ -15,7 +14,7 @@ db = Database()
 
 # --- Authentication Page ---
 def auth_page() -> None:
-    st.title("🔐 Login to your AI Assistant")
+    st.title("🔑 Login to your AI Assistant")
 
     tab1, tab2 = st.tabs(["Login", "Register"])
 
@@ -85,17 +84,17 @@ def chat_page() -> None:
         # --- Login/Register Button for Anonymous Users ---
         if not st.session_state.user:
             st.info("💡 Login to automatically save and display chat history")
-            if st.button("Login/Register"):
+            if st.button("Register or Login"):
                 st.session_state.page = 'auth'
                 st.rerun()
         
         # --- Logged-in User Sidebar ---
         else:  # st.session_state.user is not None
-            st.success(f"👋 {getattr(st.session_state.user, 'email', '')}")
+            st.success(f"🕊️ {getattr(st.session_state.user, 'email', '')}")
             
             col1, col2 = st.columns(2)
             with col1:
-                if st.button("➕ New Chat", use_container_width=True):
+                if st.button("📝 New Chat", use_container_width=True):
                     st.session_state.session_id = None
                     st.session_state.chat_history = []
                     st.rerun()
@@ -110,23 +109,6 @@ def chat_page() -> None:
             
             st.markdown("---")
             st.markdown("#### Chat History")
-            
-            # Add debug button for testing
-            if st.button("🔍 Test API Connection", use_container_width=True):
-                with st.expander("Debug Information"):
-                    st.write("**Testing session list retrieval:**")
-                    sessions = chat_manager.get_session_list(getattr(st.session_state.user, 'email', ''))
-                    st.json(sessions)
-                    
-                    if sessions:
-                        st.write("**Testing chat history retrieval (first session):**")
-                        first_session_id = sessions[0].get("session_id")
-                        if first_session_id:
-                            history = chat_manager.get_history(
-                                username=getattr(st.session_state.user, 'email', ''),
-                                session_id=first_session_id
-                            )
-                            st.json(history)
             
             # Fetch sessions for the logged-in user
             sessions = chat_manager.get_session_list(getattr(st.session_state.user, 'email', ''))
@@ -212,12 +194,11 @@ def main() -> None:
     if 'initial_load_done' not in st.session_state:
         st.session_state.initial_load_done = False
 
-    st.write(f"DEBUG: main() - st.session_state.user: {st.session_state.user}")
-    if st.session_state.user:
-        st.write(f"DEBUG: main() - st.session_state.user.email: {getattr(st.session_state.user, 'email', 'N/A')}")
-    st.write(f"DEBUG: main() - st.session_state.session_id: {st.session_state.session_id}")
-    st.write(f"DEBUG: main() - st.session_state.page: {st.session_state.page}")
-
+    # Log current session state for debug testting. Ignore this.
+    # if st.session_state.user:
+    #     st.write(f"DEBUG: main() - st.session_state.user.email: {getattr(st.session_state.user, 'email', 'N/A')}")
+    # st.write(f"DEBUG: main() - st.session_state.session_id: {st.session_state.session_id}")
+    # st.write(f"DEBUG: main() - st.session_state.page: {st.session_state.page}")
 
     # If user is on auth page, show auth page
     if st.session_state.page == 'auth':

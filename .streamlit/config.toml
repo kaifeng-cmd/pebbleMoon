@@ -5,13 +5,12 @@ showWarningOnDirectExecution = false
 [client]
 showSidebarNavigation = true
 showErrorDetails = false
-showDebugDetails = false
 
 [theme]
-primaryColor = "#FF6B9D"
-backgroundColor = "#FFF5F7"
-secondaryBackgroundColor = "#FCE4EC"
-textColor = "#2D3748"
+primaryColor = "#e1617bff"
+backgroundColor = "#fac4c4ff"
+secondaryBackgroundColor = "#f8b2b2ff"
+textColor = "#1a283fff"
 font = "sans serif"
 
 [browser]
@@ -19,7 +18,7 @@ gatherUsageStats = false
 
 [server]
 headless = true
-enableCORS = false
+enableCORS = true
 enableXsrfProtection = true
 maxUploadSize = 50
 

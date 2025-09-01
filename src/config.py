@@ -12,8 +12,8 @@ class Config:
     N8N_API_KEY = os.getenv("N8N_API_KEY")
     SUPABASE_URL = os.getenv("SUPABASE_URL")
     SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY")
-    APP_TITLE = os.getenv("APP_TITLE", "🤖 AI Chat Assistant")
-    APP_DESCRIPTION = os.getenv("APP_DESCRIPTION", "Multi-agent AI chat")
+    APP_TITLE = os.getenv("APP_TITLE", "🗨️ Japan Anime-Manga Bot")
+    APP_DESCRIPTION = os.getenv("APP_DESCRIPTION", "Multi-agent AI")
 
     @classmethod
     def validate(cls) -> bool:
