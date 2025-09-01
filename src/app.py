@@ -1,7 +1,7 @@
 import streamlit as st
 import uuid
 from .config import Config
-from .auth import Auth
+from .auth import Auth, AuthError
 from .chat import ChatManager
 from .database import Database
 
@@ -23,18 +23,25 @@ def auth_page() -> None:
         email = st.text_input("Email")
         password = st.text_input("Password", type="password")
         if st.button("Login") and email and password:
-            with st.spinner("Logging in..."):
-                resp = auth.sign_in(email, password)
-            if getattr(resp, 'user', None):
-                st.session_state.user = resp.user
-                # Update Supabase client session
-                auth.db.client.auth.set_session(resp.session.access_token, resp.session.refresh_token)
-                st.session_state.session_id = None
-                st.session_state.chat_history = []
-                st.session_state.initial_load_done = False
-                st.session_state.page = 'chat'  # Ensure redirect to chat page
-                st.success("Login successful!")
-                st.rerun()
+            try:
+                with st.spinner("Logging in..."):
+                    resp = auth.sign_in(email, password)
+                if getattr(resp, 'user', None):
+                    st.session_state.user = resp.user
+                    # Update Supabase client session
+                    auth.db.client.auth.set_session(resp.session.access_token, resp.session.refresh_token)
+                    st.session_state.session_id = None
+                    st.session_state.chat_history = []
+                    st.session_state.initial_load_done = False
+                    st.session_state.page = 'chat'  # Ensure redirect to chat page
+                    st.success("Login successful!")
+                    st.rerun()
+                else:
+                    st.error("Login failed. Please check your email and password.")
+            except AuthError as e:
+                st.error(f"Login failed: {str(e)}")
+            except Exception as e:
+                st.error(f"An unexpected error occurred: {str(e)}")
 
     with tab2:
         email = st.text_input("Email", key="reg_email")
@@ -44,12 +51,29 @@ def auth_page() -> None:
             if password != confirm:
                 st.error("Passwords do not match")
             else:
-                with st.spinner("Registering..."):
-                    resp = auth.sign_up(email, password)
-                if getattr(resp, 'user', None):
-                    st.success("Registration successful! Please check your email")
-                else:
-                    st.error("Registration failed")
+                try:
+                    with st.spinner("Checking email availability..."):
+                        # First check if email already exists
+                        if auth.check_email_exists(email):
+                            st.error("This email is already registered. Please use a different email or try logging in.")
+                            st.stop()  # Stop further execution
+                    
+                    with st.spinner("Registering..."):
+                        resp = auth.sign_up(email, password)
+                    if getattr(resp, 'user', None):
+                        st.success("Registration successful! Please check your email to verify your account.")
+                    else:
+                        st.success("Registration successful! Please check your email to verify your account.")
+                except AuthError as e:
+                    error_msg = str(e).lower()
+                    if "already registered" in error_msg:
+                        st.error("This email is already registered. Please use a different email or try logging in.")
+                    elif "password" in error_msg:
+                        st.error("Password does not meet requirements. Please use a stronger password.")
+                    else:
+                        st.error(f"Registration failed: {str(e)}")
+                except Exception as e:
+                    st.error(f"An unexpected error occurred during registration: {str(e)}")
 
 
 # --- Chat Page ---
