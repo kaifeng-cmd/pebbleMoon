@@ -7,27 +7,32 @@ class Auth:
 		self.db = Database()
 
 	def check_email_exists(self, email: str) -> bool:
-		"""Check if an email is already registered by attempting to sign in"""
+		"""
+		Check if an email is already registered using a sign-in attempt.
+		This is the most reliable method when using an anon key.
+		"""
 		try:
-			# Try to sign in with the email and a dummy password
-			# If the email exists, we'll get either a successful login or an email verification error
-			# If the email doesn't exist, we'll get "invalid credentials" error
-			self.db.client.auth.sign_in_with_password({"email": email, "password": "dummy_check"})
-			return True  # Email exists and is verified
+			"""
+			IMPORTANT: 
+			The Supabase anon key is a public API key, not an authentication token, 
+			and therefore cannot be used to check authentication or 
+			identify a specific user (ex. check unique email).
+			Since this's just a small app, so let it be.
+			"""
+			# Attempting to sign in with a dummy password.
+			# If it raises "Invalid login credentials", the user does not exist.
+			# For other auth errors (like "Email not confirmed"), the user exists.
+			self.db.client.auth.sign_in_with_password({"email": email, "password": "dummy_password"})
+			# If no error is raised, it implies the user exists.
+			return True
 		except AuthApiError as e:
-			error_msg = str(e).lower()
-			# If we get "email not confirmed" error, the email exists but isn't verified
-			if "email not confirmed" in error_msg or "email confirmation" in error_msg:
-				return True  # Email exists but needs verification
-			# If we get "invalid credentials" error, the email doesn't exist
-			elif "invalid credentials" in error_msg or "invalid email or password" in error_msg:
-				return False  # Email doesn't exist
-			else:
-				# For other errors, we'll assume the email might exist to be safe
-				return True
-		except Exception as e:
-			# For unexpected errors, we'll assume the email might exist to be safe
-			print(f"Unexpected error checking email existence: {e}")
+			# Supabase returns "Invalid login credentials" for non-existent emails.
+			if "invalid login credentials" in str(e).lower():
+				return False  # Email does not exist.
+			# Any other AuthApiError implies the user exists (e.g., "Email not confirmed").
+			return True
+		except Exception:
+			# For any other unexpected error, assume the user exists to be safe.
 			return True
 
 	def sign_up(self, email: str, password: str):
@@ -36,9 +41,20 @@ class Auth:
 			raise AuthError("This email is already registered. Please use a different email or try logging in.")
 		
 		try:
-			return self.db.client.auth.sign_up({"email": email, "password": password})
+			# Attempt to sign up - let Supabase handle the registration
+			result = self.db.client.auth.sign_up({"email": email, "password": password})
+			return result
 		except AuthApiError as e:
-			raise AuthError(f"Registration failed: {e}")
+			error_msg = str(e).lower()
+			# Provide more specific error messages for common registration issues
+			if "email already registered" in error_msg or "email has already been taken" in error_msg:
+				raise AuthError("This email is already registered. Please use a different email or try logging in.")
+			elif "password is too weak" in error_msg:
+				raise AuthError("Password is too weak. Please choose a stronger password.")
+			elif "invalid email" in error_msg:
+				raise AuthError("Invalid email address. Please enter a valid email.")
+			else:
+				raise AuthError(f"{e}")
 		except Exception as e:
 			raise AuthError(f"Unexpected error during registration: {e}")
 
