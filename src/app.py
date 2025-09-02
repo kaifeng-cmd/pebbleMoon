@@ -77,19 +77,78 @@ def auth_page() -> None:
 
 # --- Chat Page ---
 def chat_page() -> None:
+    CUSTOM_CSS = """
+    <style>
+        /* 1. Spacing: Target the container of each button for spacing */
+        div.stButton {
+            margin-bottom: 1px !important;
+        }
+
+        /* 2. Button and Text Container Styling */
+        div.stButton > button {
+            width: 100%;
+            justify-content: flex-start !important;
+            text-align: left !important;
+            position: relative; /* Needed for the gradient overlay */
+            padding-right: 20px; /* Space for the fade effect */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* 3. Smooth Fade Effect for Text Overflow */
+        div.stButton > button::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 20px; /* Width of the fade gradient */
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(247, 210, 212, 0.8) 90%, rgba(255, 255, 255, 1));
+            pointer-events: none; /* Ensure the gradient doesn't interfere with clicks */
+        }
+
+        /* Dark mode adjustment for fade effect */
+        [data-theme="dark"] div.stButton > button::after {
+            background: linear-gradient(to right, transparent, rgba(17, 17, 17, 0.9) 70%, rgba(17, 17, 17, 1));
+        }
+
+        /* 4. Highlighting: Style for the active (primary) session button */
+        button[data-testid="baseButton-primary"] {
+            background-color: #a8223dff;
+            color: white;
+            border: 1px solid #a8223dff;
+        }
+        button[data-testid="baseButton-primary"]:hover {
+            background-color: #a8223dff;
+            color: white;
+            border: 1px solid #a8223dff;
+            font-weight: bold;
+        }
+        button[data-testid="baseButton-primary"]:focus {
+            box-shadow: 0 0 0 0.2rem rgba(194, 70, 76, 0.5);
+        }
+
+        /* 5. Hover effect for non-active buttons */
+        div.stButton > button[kind="secondary"]:hover {
+            border-color: #a8223dff !important;
+            color: #a8223dff !important;
+        }
+    </style>
+    """
+    st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
+
     st.title(Config.APP_TITLE)
     st.caption(Config.APP_DESCRIPTION)
 
     with st.sidebar:
-        # --- Login/Register Button for Anonymous Users ---
         if not st.session_state.user:
             st.info("💡 Login to automatically save and display chat history")
             if st.button("Register or Login"):
                 st.session_state.page = 'auth'
                 st.rerun()
         
-        # --- Logged-in User Sidebar ---
-        else:  # st.session_state.user is not None
+        else:
             st.success(f"🕊️ {getattr(st.session_state.user, 'email', '')}")
             
             col1, col2 = st.columns(2)
@@ -104,21 +163,24 @@ def chat_page() -> None:
                     st.session_state.user = None
                     st.session_state.session_id = None
                     st.session_state.chat_history = []
-                    st.session_state.initial_load_done = False  # Reset flag
+                    st.session_state.initial_load_done = False
                     st.rerun()
             
             st.markdown("---")
             st.markdown("#### Chat History")
             
-            # Fetch sessions for the logged-in user
             sessions = chat_manager.get_session_list(getattr(st.session_state.user, 'email', ''))
             if not sessions:
                 st.info("No chat history available")
             else:
-                # Display a button for each session
+                sessions.sort(key=lambda x: x.get("session_id", ""), reverse=True)
                 for session in sessions:
                     session_title = session.get("title", session.get("session_id", "Chat"))
-                    if st.button(session_title, key=session["session_id"], use_container_width=True):
+                    
+                    is_active = (session["session_id"] == st.session_state.session_id)
+                    button_type = "primary" if is_active else "secondary"
+                    
+                    if st.button(session_title, key=session["session_id"], use_container_width=True, type=button_type):
                         st.session_state.session_id = session["session_id"]
                         st.session_state.chat_history = chat_manager.get_history(
                             username=getattr(st.session_state.user, 'email', ''),
@@ -126,12 +188,9 @@ def chat_page() -> None:
                         )
                         st.rerun()
 
-    # --- Initial Load for Logged-in User (only once) ---
-    # If user is logged in, and we haven't loaded history yet, try to load the latest session.
     if st.session_state.user and not st.session_state.initial_load_done:
         sessions = chat_manager.get_session_list(getattr(st.session_state.user, 'email', ''))
         if sessions:
-            # Sort sessions by session_id to get the most recent one
             sessions.sort(key=lambda x: x.get("session_id", ""), reverse=True)
             latest_session_id = sessions[0].get("session_id")
             if latest_session_id:
@@ -140,19 +199,15 @@ def chat_page() -> None:
                     username=getattr(st.session_state.user, 'email', ''),
                     session_id=latest_session_id
                 )
-        st.session_state.initial_load_done = True  # Mark as loaded
-        st.rerun()  # Rerun to display loaded history
+        st.session_state.initial_load_done = True
+        st.rerun()
 
-
-    # --- Display Chat Messages ---
     for msg in st.session_state.chat_history:
         role = 'user' if msg.get("type") == "human" else 'assistant'
         with st.chat_message(role):
             st.write(msg.get("data", {}).get("content", ""))
 
-    # --- Chat Input and Message Sending ---
     if prompt := st.chat_input("Enter your question..."):
-        # For anonymous users, generate a temporary session_id if none exists
         if not st.session_state.user and not st.session_state.session_id:
             st.session_state.session_id = f"web_anon_{uuid.uuid4().hex}"
 
@@ -171,7 +226,6 @@ def chat_page() -> None:
         with st.chat_message("assistant"):
             st.write(ai_text)
         
-        # Append new messages to history (no get_history call here)
         st.session_state.chat_history.append({"type": "human", "data": {"content": prompt}})
         st.session_state.chat_history.append({"type": "ai", "data": {"content": ai_text}})
         
@@ -180,8 +234,6 @@ def chat_page() -> None:
 
 # --- Main Application Flow ---
 def main() -> None:
-    # Ensure all necessary session_state keys exist at the start of main function
-    # This prevents AttributeError in some Streamlit rerun scenarios
     if 'page' not in st.session_state:
         st.session_state.page = 'chat'
     if 'user' not in st.session_state:
@@ -194,16 +246,8 @@ def main() -> None:
     if 'initial_load_done' not in st.session_state:
         st.session_state.initial_load_done = False
 
-    # Log current session state for debug testting. Ignore this.
-    # if st.session_state.user:
-    #     st.write(f"DEBUG: main() - st.session_state.user.email: {getattr(st.session_state.user, 'email', 'N/A')}")
-    # st.write(f"DEBUG: main() - st.session_state.session_id: {st.session_state.session_id}")
-    # st.write(f"DEBUG: main() - st.session_state.page: {st.session_state.page}")
-
-    # If user is on auth page, show auth page
     if st.session_state.page == 'auth':
         auth_page()
-    # Otherwise, show chat page (whether logged in or anonymous)
     else:
         chat_page()
 

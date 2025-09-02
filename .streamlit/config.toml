@@ -10,7 +10,7 @@ showErrorDetails = false
 primaryColor = "#e1617bff"
 backgroundColor = "#fac4c4ff"
 secondaryBackgroundColor = "#f8b2b2ff"
-textColor = "#1a283fff"
+textColor = "#a8223dff"
 font = "sans serif"
 
 [browser]
