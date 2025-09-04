@@ -1,0 +1,1807 @@
+{
+  "name": "n8n_workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "endpointUrl": "https://mcp.tavily.com/mcp/?tavilyApiKey=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",
+        "serverTransport": "httpStreamable",
+        "include": "selected",
+        "includeTools": [
+          "tavily_search"
+        ],
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.1,
+      "position": [
+        1376,
+        688
+      ],
+      "id": "0d8d1088-f40c-4c4d-884b-36f340c45ab2",
+      "name": "MCP Client",
+      "notesInFlow": true,
+      "notes": "Travily MCP"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -816,
+        592
+      ],
+      "id": "849d98e0-a028-4f5b-adae-7d5f2cec0d82",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "C4dkKf7dZS5YZV6F",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -304,
+        752
+      ],
+      "id": "be98fc41-485d-482c-8d77-13c39ca6a4e7",
+      "name": "Google Gemini Chat Model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "C4dkKf7dZS5YZV6F",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -304,
+        224
+      ],
+      "id": "5cfa72a3-508a-4177-9bd4-c57643dbfef7",
+      "name": "Google Gemini Chat Model3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "C4dkKf7dZS5YZV6F",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "endpointUrl": "https://mcp.tavily.com/mcp",
+        "serverTransport": "httpStreamable",
+        "authentication": "bearerAuth",
+        "include": "selected",
+        "includeTools": "={{ [\"tavily_search\"] }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.1,
+      "position": [
+        -592,
+        640
+      ],
+      "id": "ababba7f-5f10-445b-9ede-20742825dd8a",
+      "name": "MCP Client1",
+      "notesInFlow": true,
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "H1Xz8JjoARc7zPFd",
+          "name": "Bearer Auth account 2"
+        }
+      },
+      "notes": "Travily MCP"
+    },
+    {
+      "parameters": {
+        "endpointUrl": "https://mcp.tavily.com/mcp/?tavilyApiKey=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",
+        "serverTransport": "httpStreamable",
+        "include": "selected",
+        "includeTools": [
+          "tavily_search"
+        ],
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.1,
+      "position": [
+        816,
+        176
+      ],
+      "id": "48ac16e0-ff3a-4e0c-ac41-beee09895a3a",
+      "name": "MCP Client2",
+      "notesInFlow": true,
+      "notes": "Travily MCP"
+    },
+    {
+      "parameters": {
+        "collectionName": "chat",
+        "databaseName": "kai",
+        "contextWindowLength": 6
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryMongoDbChat",
+      "typeVersion": 1,
+      "position": [
+        -720,
+        736
+      ],
+      "id": "74288455-1a9c-47a2-aff2-8a1cc6c37828",
+      "name": "MongoDB Chat Memory",
+      "credentials": {
+        "mongoDb": {
+          "id": "R8JJeJW6jDWENpOW",
+          "name": "MongoDB account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1344,
+        368
+      ],
+      "id": "2426fb2a-5472-4129-9042-c7247724afac",
+      "name": "Telegram Trigger",
+      "webhookId": "2c590838-2ae1-4e64-96bd-3888c682fc25",
+      "credentials": {
+        "telegramApi": {
+          "id": "rwoIwTNB34uNglvV",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "289685fa-e10b-4b56-b2be-9a16e7c6e3e9",
+              "name": "chatInput",
+              "value": "={{ $json.message.text }}",
+              "type": "string"
+            },
+            {
+              "id": "c119d562-eee8-4ff2-8e4f-71d23be899df",
+              "name": "sessionId",
+              "value": "={{ $json.message.from.id }}",
+              "type": "string"
+            },
+            {
+              "id": "3669106e-6742-46f4-9c1e-a89f1e45fd46",
+              "name": "source",
+              "value": "telegram",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1136,
+        368
+      ],
+      "id": "0e212bad-ec1b-4e11-a4d6-8ff10777ba86",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Edit Fields').item.json.sessionId }}",
+        "text": "={{ $json.response }}",
+        "replyMarkup": "replyKeyboard",
+        "replyKeyboardOptions": {},
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1136,
+        384
+      ],
+      "id": "0fb4710a-3cf3-4ee5-a128-2eeab38eeea5",
+      "name": "Send a text message",
+      "webhookId": "6091e076-bbe1-4367-90f3-9fb21807c623",
+      "credentials": {
+        "telegramApi": {
+          "id": "rwoIwTNB34uNglvV",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "65841107-0649-4548-8d1d-f6b096bdca7a",
+              "name": "output",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -192,
+        368
+      ],
+      "id": "265b3317-a7e3-4c02-8d2b-e3e426a88082",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "/chat",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1344,
+        816
+      ],
+      "id": "4d8958a4-c756-4d73-b931-972eb13cc6b8",
+      "name": "Webhook",
+      "webhookId": "c4a0cb5e-c516-48d1-b8f5-641ba56a5b2d",
+      "alwaysOutputData": false,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "SAv17ySro4dATtfe",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Normalize Web Input - for multiple sessions per logged-in user\nconst items = $input.all();\nconst j = items[0].json.body || {};\n\nconst msg = j.message || '';\nconst username = (j.username || '').toLowerCase().trim();\nlet sessionId = j.session_id;\n\n// If Streamlit does not provide a sessionId (meaning this is a new chat session)\nif (!sessionId) {\n  // Generate a new, unique sessionId\n  // For logged in users, includes username and timestamp/random number for subsequent lookup by username\n  if (username) {\n    sessionId = `web_${username}_${Date.now().toString(36)}_${Math.random().toString(36).substr(2, 5)}`;\n  } else {\n    // For non-logged-in users, generate a temporary, unique sessionId\n    sessionId = `web_anon_${Date.now().toString(36)}_${Math.random().toString(36).substr(2, 5)}`;\n  }\n}\n\nreturn [\n  {\n    json: {\n      ...j,\n      chatInput: msg,\n      sessionId: sessionId,\n      source: j.source || 'streamlit',\n      username: username || null\n    },\n  },\n];\n\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1136,
+        816
+      ],
+      "id": "d55dc7e5-7a95-4b97-9642-f5cb6731b96c",
+      "name": "Code",
+      "notesInFlow": true,
+      "notes": "Normalize Web Input"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "4043d581-9d4b-4fda-95aa-0ac5369d6953",
+              "leftValue": "={{$json.source}}",
+              "rightValue": "streamlit",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        560,
+        368
+      ],
+      "id": "c7684397-487e-4c53-b2cc-c7fb37b1d504",
+      "name": "If",
+      "notesInFlow": true,
+      "notes": "Is Streamlit?"
+    },
+    {
+      "parameters": {
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        1312,
+        208
+      ],
+      "id": "9ee4b303-d9ac-4734-9fac-f12f45a290ca",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "/get-history",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1328,
+        1280
+      ],
+      "id": "629dd372-5080-45d5-b4ed-407aad45e124",
+      "name": "Webhook1",
+      "webhookId": "fd915590-bc4c-4fec-93a1-c9aebadaf137",
+      "notesInFlow": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "SAv17ySro4dATtfe",
+          "name": "Header Auth account"
+        }
+      },
+      "notes": "get history webhook trigger"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\n// request body\nconst requestBody = items[0].json.body || {};\n\n// Get the session_id\nconst sessionId = requestBody.session_id;\n\nreturn [\n  {\n    json: {\n      sessionId: sessionId\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1104,
+        1280
+      ],
+      "id": "0dbdd011-1364-40a7-a66c-b85ce5cb3e6f",
+      "name": "Code1",
+      "notesInFlow": true,
+      "notes": "Pass the session id"
+    },
+    {
+      "parameters": {
+        "collection": "chat",
+        "options": {},
+        "query": "={ \"sessionId\": \"{{$json.sessionId}}\" }\n"
+      },
+      "type": "n8n-nodes-base.mongoDb",
+      "typeVersion": 1.2,
+      "position": [
+        -864,
+        1280
+      ],
+      "id": "ec8c88b4-ddc8-449f-b7fe-6b070f4fbd79",
+      "name": "Find documents",
+      "alwaysOutputData": true,
+      "notesInFlow": true,
+      "credentials": {
+        "mongoDb": {
+          "id": "R8JJeJW6jDWENpOW",
+          "name": "MongoDB account"
+        }
+      },
+      "notes": "Get chat history for a session"
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        -416,
+        1280
+      ],
+      "id": "4e59f88c-9a8e-41db-b50d-6a7ae27f7537",
+      "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Shape Response after \"Find documents\"\nif (items.length === 0) {\n  return [{ json: { messages: [] } }];\n}\nconst doc = items[0].json || {};\nconst messages = doc.messages || [];\nreturn [{ json: { messages: messages } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -640,
+        1280
+      ],
+      "id": "cec51778-4509-4f86-a13a-c6ec42c4a7b0",
+      "name": "Code2"
+    },
+    {
+      "parameters": {
+        "jsCode": "const agentOutput = $json;\nlet normalizeData = {};\n\n// Try to get data from the node named \"Code\" (this is the path to the Webhook/Streamlit)\ntry {\n  normalizeData = $item(0).$node[\"Code\"].json;\n} catch (error) {\n  // If this fails, the \"Code\" node is not on the execution path, so this must be the Telegram path\n  // We get data from the node named \"Edit Fields\"\n  normalizeData = $item(0).$node[\"Edit Fields\"].json;\n}\n\n// No matter which process, normalizeData contains the correct data\nconst responseData = {\n  response: agentOutput.output,        // AI Agent generated answer\n  sessionId: normalizeData.sessionId,  \n  source: normalizeData.source,        \n  username: normalizeData.username\n};\n\nreturn [\n  {\n    json: responseData\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        80,
+        368
+      ],
+      "id": "69584a0d-54b9-4801-8726-7884214c18e4",
+      "name": "Code3"
+    },
+    {
+      "parameters": {
+        "path": "get-sessions",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        48,
+        1280
+      ],
+      "id": "97ff7373-9067-49a8-b444-844e2ab0ee51",
+      "name": "Webhook2",
+      "webhookId": "775d7d7c-e258-4320-bea2-6079e550251c",
+      "notesInFlow": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "SAv17ySro4dATtfe",
+          "name": "Header Auth account"
+        }
+      },
+      "notes": "get-sessions webhook trigger"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Code node for N8N_GET_SESSIONS_URL workflow\n// Extracts username from the query parameters (for GET requests)\n\nconst items = $input.all();\nconst queryParams = items[0].json.query || {};\n\nconst username = queryParams.username;\n\n// Pass the username to the next node\nreturn [\n  {\n    json: {\n      username: username\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        256,
+        1280
+      ],
+      "id": "ee52fbc4-5343-45f8-9b11-247f399478c2",
+      "name": "Code4",
+      "notesInFlow": true,
+      "notes": "Pass the username"
+    },
+    {
+      "parameters": {
+        "collection": "chat",
+        "options": {},
+        "query": "={ \"username\": \"{{$json.username}}\" }\n"
+      },
+      "type": "n8n-nodes-base.mongoDb",
+      "typeVersion": 1.2,
+      "position": [
+        464,
+        1280
+      ],
+      "id": "5f4f2acb-33b3-46d7-a877-4413e1852d0b",
+      "name": "Find documents1",
+      "notesInFlow": true,
+      "credentials": {
+        "mongoDb": {
+          "id": "R8JJeJW6jDWENpOW",
+          "name": "MongoDB account"
+        }
+      },
+      "notes": "Get chat sessions for a user"
+    },
+    {
+      "parameters": {
+        "jsCode": "const sessions = [];\nconst uniqueSessionIds = new Set();\n\nfor (const item of $input.all()) {\n  const doc = item.json;\n  const sessionId = doc.sessionId;\n\n  if (sessionId && !uniqueSessionIds.has(sessionId)) {\n    uniqueSessionIds.add(sessionId);\n\n    let title = \"new_conversation\";\n    if (doc.messages && doc.messages.length > 0) {\n      const firstMessage = doc.messages[0];\n      if (firstMessage.type === \"human\" && firstMessage.data?.content) {\n        title = firstMessage.data.content.substring(0, 50) + (firstMessage.data.content.length > 50 ? \"...\" : \"\");\n      } else if (firstMessage.type === \"ai\" && firstMessage.data?.content) {\n        title = firstMessage.data.content.substring(0, 50) + (firstMessage.data.content.length > 50 ? \"...\" : \"\");\n      }\n    }\n\n    sessions.push({ session_id: sessionId, title });\n  }\n}\n\n// return an object, inside got session array\nreturn [\n  {\n    json: {\n      sessions: sessions\n    }\n  }\n];\n\n\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        1280
+      ],
+      "id": "edd41a29-8df3-4e75-82b1-d19a39bbbcac",
+      "name": "Code5"
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        896,
+        1280
+      ],
+      "id": "a6db4a7f-e94e-4fe2-9d99-60088997d261",
+      "name": "Respond to Webhook2"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "collection": "chat",
+        "updateKey": "sessionId",
+        "fields": "=username",
+        "upsert": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mongoDb",
+      "typeVersion": 1.2,
+      "position": [
+        1392,
+        864
+      ],
+      "id": "7302c873-3d3f-4062-b40b-78ad1f3a6bd1",
+      "name": "Final Update Username",
+      "retryOnFail": false,
+      "alwaysOutputData": true,
+      "credentials": {
+        "mongoDb": {
+          "id": "R8JJeJW6jDWENpOW",
+          "name": "MongoDB account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d627ccd5-1c17-4c27-aac9-29482a21f6b8",
+              "leftValue": "={{ $json.source }}",
+              "rightValue": "streamlit",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        608,
+        896
+      ],
+      "id": "5db4d3e6-b3d5-47b1-9f66-c1d62763fec5",
+      "name": "Is Streamlit Source?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "8d6e20f3-5f57-47b0-9e79-e9c661128e32",
+              "leftValue": "={{ $('Code').item.json.username }}",
+              "rightValue": "=",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        960,
+        880
+      ],
+      "id": "15ccdce4-a879-4b6b-b17e-14060c66f508",
+      "name": "Has Username?"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        816,
+        992
+      ],
+      "id": "859420e7-0466-45fe-8178-5e679cfc5e58",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        976
+      ],
+      "id": "9111b51c-c1a8-44a5-a9cc-01e08552e71f",
+      "name": "No Operation, do nothing1"
+    },
+    {
+      "parameters": {
+        "content": "## Webhook for GET sessions\nThis aims to load the chat sessions at the **Streamlit** web app sidebar.",
+        "height": 272,
+        "width": 1216
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -112,
+        1184
+      ],
+      "typeVersion": 1,
+      "id": "881fa393-7418-4c41-a932-235b7692eec4",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Webhook for POST chat history\n- This aims to load chat history when user click on a specific chat session at the **Streamlit** web app.\n- It can be used only depends on GET sessions.",
+        "height": 272,
+        "width": 1216,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1408,
+        1184
+      ],
+      "typeVersion": 1,
+      "id": "dd9377db-887f-4189-8c88-eee098bc5535",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Notes\nThe header auth used for the webhook is custom, **X-API-KEY**",
+        "height": 272,
+        "width": 176,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1168,
+        1184
+      ],
+      "typeVersion": 1,
+      "id": "95362ca1-ba13-4ace-afe7-198b09a2ef52",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Supervisor Agent\n- It acts like planner & executor agent to assign tasks to agents.\n- It holds the history of conversation.\n- For those just need anime season list, own handle, reduce complicated process.",
+        "height": 928,
+        "width": 576,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -976,
+        48
+      ],
+      "typeVersion": 1,
+      "id": "a6f98ef5-1a54-44fa-8a27-4b6d04f6c6b8",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Message from Telegram bot ",
+        "height": 224,
+        "width": 384,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1392,
+        304
+      ],
+      "typeVersion": 1,
+      "id": "24abf56b-4b7f-4e5f-997e-f8c53dbc8799",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "## Message from Web App\n**Streamlit**",
+        "height": 240,
+        "width": 384,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1392,
+        736
+      ],
+      "typeVersion": 1,
+      "id": "4baa5c7d-675f-43cc-b401-48e86fd36df6",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "## Manga Agent\n",
+        "height": 368,
+        "width": 1264,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -352,
+        -16
+      ],
+      "typeVersion": 1,
+      "id": "dc506499-2405-41f7-bd60-0e6951dae8ee",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "## Anime Agent\n",
+        "height": 624,
+        "width": 768,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -352,
+        528
+      ],
+      "typeVersion": 1,
+      "id": "21b922e1-99a7-4b57-99de-069d2e48518b",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 320,
+        "width": 1104,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        416,
+        528
+      ],
+      "typeVersion": 1,
+      "id": "f49b5490-334a-492a-bd2b-528dbc415d57",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "toolDescription": "getAnimeSeasonNow",
+        "url": "https://api.jikan.moe/v4/seasons/now",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        -896,
+        208
+      ],
+      "id": "554d7edc-e80b-4de1-be7b-82a5ee80b4f4",
+      "name": "getAnimeSeasonNow",
+      "notesInFlow": true,
+      "notes": "getAnimeSeasonNow"
+    },
+    {
+      "parameters": {
+        "toolDescription": "getAnimeSeason",
+        "url": "=https://api.jikan.moe/v4/seasons/{{ $fromAI('year', '', 'number') }}/{{ $fromAI('season', '', 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        -656,
+        208
+      ],
+      "id": "3070ea4c-4a17-4447-a1be-2cfb003bfc2a",
+      "name": "getAnimeSeason",
+      "notesInFlow": true,
+      "notes": "getAnimeSeason"
+    },
+    {
+      "parameters": {
+        "toolDescription": "This tools is called when user ask about top N manga, the N is the limit.",
+        "url": "https://api.jikan.moe/v4/top/manga",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "limit",
+              "value": "={{ $fromAI('parameters0_Value', ``, 'number') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        -96,
+        208
+      ],
+      "id": "9cc35c94-8296-418f-a450-d07c684aa17e",
+      "name": "getTopManga",
+      "notesInFlow": true,
+      "notes": "getTopManga"
+    },
+    {
+      "parameters": {
+        "toolDescription": "search and find a manga based on given name",
+        "url": "https://api.jikan.moe/v4/manga",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ $fromAI('parameters0_Value', ``, 'string') }}"
+            },
+            {
+              "name": "limit",
+              "value": "1"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        48,
+        208
+      ],
+      "id": "013e4e07-8c5a-49a5-8d8b-f43ef3f9ca23",
+      "name": "searchManga",
+      "notesInFlow": true,
+      "notes": "searchManga"
+    },
+    {
+      "parameters": {
+        "toolDescription": "retrieve news based on given manga id (must use searchAnime before use this)",
+        "url": "=https://api.jikan.moe/v4/manga/{{ $fromAI('parameters0_Value', ``, 'number') }}/news",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        512,
+        208
+      ],
+      "id": "b315fc3e-a360-4ed9-9bc0-0271de3c5cac",
+      "name": "getMangaNews",
+      "notesInFlow": true,
+      "notes": "getMangaNews"
+    },
+    {
+      "parameters": {
+        "toolDescription": "retrieve image links based on given manga id (must use searchAnime before use this)",
+        "url": "=https://api.jikan.moe/v4/manga/{{ $fromAI('parameters0_Value', ``, 'number') }}/pictures",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        672,
+        208
+      ],
+      "id": "67b623af-7dde-49b4-b6ee-4f693118faf8",
+      "name": "getMangaImage",
+      "notesInFlow": true,
+      "notes": "getMangaImage"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a Supervisor AI Agent. Your SOLE role is to analyze user input and route it to the correct agent or use the tools. Don't explicitly say you are Japanese anime-manga assistant. You can ONLY handle user question related to Japanese anime and manga, other than that just reply sry and said you're based on your role. Don't exposure to user what agent/tool u have, just inplicitly mention what functions u have, what u can help, u're represent whole.\n\nAvailable agents/tools:\n- AnimeAgent: Handles anime queries (e.g., top anime, anime search, character search, recommendations, news, images, quotes).\n- MangaAgent: Handles manga queries (e.g., top manga, manga search, recommendations).\n- TravilyMCP(): Web search for enrichment when you think it's related to anime and manga but other agent/tool can't get useful info.\n- getAnimeSeasonNow(): If user ask current/latest anime season/now, use this to retrieve anime season list.\n- getAnimeSeason(year, season): If user ask anime list with year(ex: 2024) and season(spring, summer, fall, winter), use this.\n\nRules:\n- If the input contains anime-related keywords (e.g., \"anime\", \"episode\", \"season\", \"view\", \"watch\"), call AnimeAgent.\n- If the input contains manga-related keywords (e.g., \"manga\", \"chapter\", \"volume\", \"read\"), call MangaAgent.\n- If the input refers to a previous anime/manga (e.g., \"news about it\"), check the chat history for the last anime or manga name.\n- If the input is ambiguous (e.g., \"Berserk\"), default to AnimeAgent and include a note in the response to suggest manga if needed.\n- If the input is related to anime/manga but no useful context , call TravilyMCP.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -816,
+        368
+      ],
+      "id": "266c2fbd-27f8-40a0-ade2-4c3217630409",
+      "name": "Supervisor Agent",
+      "executeOnce": false,
+      "retryOnFail": true,
+      "maxTries": 2
+    },
+    {
+      "parameters": {
+        "toolDescription": "Manga Agent",
+        "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Prompt__User_Message_', ``, 'string') }}",
+        "options": {
+          "systemMessage": "You are a Manga Agent, handling manga-related queries from a Supervisor AI Agent. Based on the input query, select the appropriate tool and return a JSON object in the format: { \"function\": \"function_name\", \"parameters\": { \"key\": \"value\" } }. Use the chat history only to retrieve a manga_id or manga name if the input refers to a previous manga.\n\nAvailable tools:\n- getTopManga(limit): Returns a list of top manga, limit is a number between 1 and 25. Use when the input asks for \"top\" or \"best\" manga.\n- searchManga(query): Searches for a manga by name and returns the first matching result with manga_id. Use when the input mentions a manga name.\n- mangaCharacterSearch(query): Find a character based on given manga name.\n- getMangaRecommendationsById(mal_id): Returns manga recommendations, requires a valid manga_id. Use after searchManga if needed.\n- getMangaNews(mal_id): Find news based on given manga id. Use after searchManga if needed.\n- getMangaImage(mal_id): Returns 5 image links for a manga. Use after searchManga if needed.\n- TravilyMCP(): Performs a web search as a fallback/enrichment if no other tool applies.\n\nRules:\n- If the input says \"top list\" or \"top manga\", use getTopManga with limit=10.\n- If the input says \"top N\" (e.g., \"top 5\"), use getTopManga with limit=N (1 ≤ limit ≤ 25).\n- If the input mentions a manga name (e.g., \"Berserk\"), use searchManga with the name as the query.\n- If the input asks for recommendations, check the chat history for a manga_id. If no manga_id, call searchManga first.\n- If the input is vague or no information is found, use TravilyMCP.\n- Always return a JSON object: { \"function\": \"function_name\", \"parameters\": { \"key\": \"value\" } }.\n\nExamples:\nInput: \"top 5\"\nOutput: { \"function\": \"getTopManga\", \"parameters\": { \"limit\": 5 } }\n\nInput: \"I want to know about Berserk\"\nOutput: { \"function\": \"searchManga\", \"parameters\": { \"query\": \"Berserk\" } }\n\nChat history:\n- Input: \"Berserk\"\n- Output: { \"function\": \"searchManga\", \"parameters\": { \"query\": \"Berserk\" } }\nInput: \"recommendations for it\"\nOutput: { \"function\": \"getMangaRecommendationsById\", \"parameters\": { \"mal_id\": \"<manga_id from searchManga>\" } }"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 2.2,
+      "position": [
+        -304,
+        64
+      ],
+      "id": "5016b1f9-ef96-47e1-994f-be5852c75c98",
+      "name": "Manga Agent",
+      "notesInFlow": true,
+      "notes": "Manga Agent"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Anime Agent",
+        "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Prompt__User_Message_', ``, 'string') }}",
+        "options": {
+          "systemMessage": "You are an Anime Agent, handling anime-related queries from a Supervisor AI Agent. Based on the input query, select the appropriate tool and return a JSON object in the format: { \"function\": \"function_name\", \"parameters\": { \"key\": \"value\" } }. Use the chat history only to retrieve a mal_id or anime name if the input refers to a previous anime.\n\nAvailable tools:\n- getTopAnime(limit): Returns a list of top anime, limit is a number between 1 and 25. Use when the input asks for \"top\" or \"best\" anime.\n- searchAnime(query): Searches for an anime by name and returns the first matching result with mal_id. Use when the input mentions an anime name.\n- animeCharacterSearch(query): Searches for an anime character by name and returns the first matching result. Use when the input asks about a character.\n- getAnimeRecommendationsById(mal_id): Returns anime recommendations, requires a valid mal_id. Use after searchAnime if needed.\n- getAnimeNews(mal_id): Returns news about an anime, requires a valid mal_id. Use after searchAnime if needed.\n- getAnimeImage(mal_id): Returns 5 image links for an anime, requires a valid mal_id. Use after searchAnime if needed.\n- getPreviewYouTubeVideo(mal_id): Returns 5 YouTube video URLs for an anime, requires a valid mal_id. Use after searchAnime if needed.\n- getQuotesbyAnime(query): Retrieves quotes by user given anime name.\n- getQuotesbyCharacter(query): Retrieves quotes by user given character name.\n- getRandomQuote(): Get a quote when user asks for quote only, not specify any anime name and character.\n- TravilyMCP(): Performs a web search as a fallback/enrichment  if no other tool applies.\n\nRules:\n- If the input says \"top\" or \"top anime\", use getTopAnime with limit=10.\n- If the input says \"top N\" (e.g., \"top 5\"), use getTopAnime with limit=N (1 ≤ limit ≤ 25).\n- If the input mentions an anime name (e.g., \"Steins;Gate\"), use searchAnime with the name as the query.\n- If the input asks about a character (e.g., \"who is Naruto\"), use characterSearch with the character name.\n- If the input asks for recommendations, news, or images (e.g., \"news about Steins;Gate\"), check the chat history for a mal_id. If no mal_id, call searchAnime first.\n- If the input is vague or no information is found, use TravilyMCP.\n- Always return a JSON object: { \"function\": \"function_name\", \"parameters\": { \"key\": \"value\" } }.\n\nExamples:\nInput: \"top 5\"\nOutput: { \"function\": \"getTopAnime\", \"parameters\": { \"limit\": 5 } }\n\nInput: \"I want to know about Steins;Gate\"\nOutput: { \"function\": \"searchAnime\", \"parameters\": { \"query\": \"Steins;Gate\" } }\n\nChat history:\n- Input: \"Steins;Gate\"\n- Output: { \"function\": \"searchAnime\", \"parameters\": { \"query\": \"Steins;Gate\" } }\nInput: \"news about it\"\nOutput: { \"function\": \"getAnimeNews\", \"parameters\": { \"mal_id\": \"<mal_id from searchAnime>\" } }\n\nInput: \"who is Naruto Uzumaki\"\nOutput: { \"function\": \"characterSearch\", \"parameters\": { \"query\": \"Naruto Uzumaki\" } }"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 2.2,
+      "position": [
+        -320,
+        592
+      ],
+      "id": "1fce2505-00f4-43d1-a2a9-6665c1ebae3e",
+      "name": "Anime Agent",
+      "notesInFlow": true,
+      "notes": "Anime Agent"
+    },
+    {
+      "parameters": {
+        "toolDescription": "This tools is called when user ask about top N anime, the N is the limit.",
+        "url": "https://api.jikan.moe/v4/top/anime",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "=limit",
+              "value": "={{ $fromAI('parameters0_Value', ``, 'number') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        -176,
+        992
+      ],
+      "id": "34aca08b-f51f-41d1-b525-cdc5b19e6b67",
+      "name": "getTopAnime",
+      "notesInFlow": true,
+      "notes": "getTopAnime"
+    },
+    {
+      "parameters": {
+        "toolDescription": "searchAnime",
+        "url": "https://api.jikan.moe/v4/anime",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ $fromAI('parameters0_Value', ``, 'string') }}"
+            },
+            {
+              "name": "limit",
+              "value": "1"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        -80,
+        864
+      ],
+      "id": "1c735393-b46c-41af-b2eb-ede43c5dc08b",
+      "name": "searchAnime",
+      "notesInFlow": true,
+      "notes": "searchAnime"
+    },
+    {
+      "parameters": {
+        "toolDescription": "getAnimeNews",
+        "url": "=https://api.jikan.moe/v4/anime/{{ $fromAI('parameters0_Value', ``, 'number') }}/news",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        288,
+        736
+      ],
+      "id": "04fd4fef-1960-49ef-86a1-deadd8505bcd",
+      "name": "getAnimeNews",
+      "notesInFlow": true,
+      "notes": "getAnimeNews"
+    },
+    {
+      "parameters": {
+        "toolDescription": "getAnimeImage",
+        "url": "=https://api.jikan.moe/v4/anime/{{ $fromAI('parameters0_Value', ``, 'number') }}/pictures",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        480,
+        688
+      ],
+      "id": "3662edc3-5b4e-465d-a598-6b13cb27acb2",
+      "name": "getAnimeImage",
+      "notesInFlow": true,
+      "notes": "getAnimeImage"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Fetches video links for an anime.",
+        "url": "=https://api.jikan.moe/v4/anime/{{ $fromAI('parameters0_Value', ``, 'number') }}/videos",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        672,
+        688
+      ],
+      "id": "bf057bc9-cc90-4071-908d-89df1c4241f9",
+      "name": "getPreviewYouTubeVideo",
+      "notesInFlow": true,
+      "notes": "getPreviewYouTubeVideo"
+    },
+    {
+      "parameters": {
+        "toolDescription": "getQuotesbyAnime",
+        "url": "https://api.animechan.io/v1/quotes/",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "anime",
+              "value": "={{ $fromAI('parameters0_Value', ``, 'string') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        848,
+        688
+      ],
+      "id": "0ade4d60-6a72-4c13-a59f-9591855c334a",
+      "name": "getQuotesbyAnime",
+      "notesInFlow": true,
+      "notes": "getQuotesbyAnime"
+    },
+    {
+      "parameters": {
+        "toolDescription": "getQuotesbyCharacter",
+        "url": "https://api.animechan.io/v1/quotes/",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "character",
+              "value": "={{ $fromAI('parameters0_Value', ``, 'string') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        1040,
+        688
+      ],
+      "id": "2cdd1a28-456b-43e2-8ff3-9b529118e987",
+      "name": "getQuotesbyCharacter",
+      "notesInFlow": true,
+      "notes": "getQuotesbyCharacter"
+    },
+    {
+      "parameters": {
+        "toolDescription": "getRandomQuote",
+        "url": "https://api.animechan.io/v1/quotes/random",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        1232,
+        688
+      ],
+      "id": "67cbadca-f3db-4296-a8c6-43cf9df9ead0",
+      "name": "getRandomQuote",
+      "notesInFlow": true,
+      "notes": "getRandomQuote"
+    },
+    {
+      "parameters": {
+        "toolDescription": "animeCharacterSearch",
+        "url": "https://api.jikan.moe/v4/characters",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ $fromAI('parameters0_Value', ``, 'string') }}"
+            },
+            {
+              "name": "limit",
+              "value": "1"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        48,
+        848
+      ],
+      "id": "018715fc-4ba4-4648-9120-5e59613fb33e",
+      "name": "animeCharacterSearch",
+      "notesInFlow": true,
+      "notes": "characterSearch"
+    },
+    {
+      "parameters": {
+        "toolDescription": "getAnimeRecommendationsById",
+        "url": "=https://api.jikan.moe/v4/anime/{{ $fromAI('parameters0_Value', ``, 'number') }}/recommendations",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        192,
+        880
+      ],
+      "id": "27476ca1-ec37-4d7a-977f-0a7757c4f9e5",
+      "name": "getAnimeRecommendationsById",
+      "notesInFlow": true,
+      "notes": "getRecommendationsById"
+    },
+    {
+      "parameters": {
+        "toolDescription": "retrieve recommendation based on given manga id (must use searchAnime before use this)",
+        "url": "=https://api.jikan.moe/v4/manga/{{ $fromAI('parameters0_Value', ``, 'number') }}/recommendations",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        352,
+        192
+      ],
+      "id": "44dc3531-a11c-4bd1-852f-3f4f4b845a27",
+      "name": "getMangaRecommendationsById",
+      "notesInFlow": true,
+      "notes": "getRecommendationsById"
+    },
+    {
+      "parameters": {
+        "toolDescription": "find a character based on given manga name",
+        "url": "https://api.jikan.moe/v4/characters",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ $fromAI('parameters0_Value', ``, 'string') }}"
+            },
+            {
+              "name": "limit",
+              "value": "1"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        192,
+        208
+      ],
+      "id": "51c7f9cd-521c-4978-9ea9-5b3cb2f011e4",
+      "name": "mangaCharacterSearch",
+      "notesInFlow": true,
+      "notes": "characterSearch"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "MCP Client": {
+      "ai_tool": [
+        [
+          {
+            "node": "Anime Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Supervisor Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Anime Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Manga Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MCP Client1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Supervisor Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MCP Client2": {
+      "ai_tool": [
+        [
+          {
+            "node": "Manga Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MongoDB Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Supervisor Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Supervisor Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Code3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Supervisor Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Find documents",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find documents": {
+      "main": [
+        [
+          {
+            "node": "Code2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code2": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code3": {
+      "main": [
+        [
+          {
+            "node": "Is Streamlit Source?",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook2": {
+      "main": [
+        [
+          {
+            "node": "Code4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code4": {
+      "main": [
+        [
+          {
+            "node": "Find documents1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find documents1": {
+      "main": [
+        [
+          {
+            "node": "Code5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code5": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Final Update Username": {
+      "main": [
+        []
+      ]
+    },
+    "Is Streamlit Source?": {
+      "main": [
+        [
+          {
+            "node": "Has Username?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Username?": {
+      "main": [
+        [
+          {
+            "node": "Final Update Username",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getAnimeSeasonNow": {
+      "ai_tool": [
+        [
+          {
+            "node": "Supervisor Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getAnimeSeason": {
+      "ai_tool": [
+        [
+          {
+            "node": "Supervisor Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getTopManga": {
+      "ai_tool": [
+        [
+          {
+            "node": "Manga Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "searchManga": {
+      "ai_tool": [
+        [
+          {
+            "node": "Manga Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getMangaNews": {
+      "ai_tool": [
+        [
+          {
+            "node": "Manga Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getMangaImage": {
+      "ai_tool": [
+        [
+          {
+            "node": "Manga Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supervisor Agent": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Manga Agent": {
+      "ai_tool": [
+        [
+          {
+            "node": "Supervisor Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anime Agent": {
+      "ai_tool": [
+        [
+          {
+            "node": "Supervisor Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getTopAnime": {
+      "ai_tool": [
+        [
+          {
+            "node": "Anime Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "searchAnime": {
+      "ai_tool": [
+        [
+          {
+            "node": "Anime Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getAnimeNews": {
+      "ai_tool": [
+        [
+          {
+            "node": "Anime Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getAnimeImage": {
+      "ai_tool": [
+        [
+          {
+            "node": "Anime Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getPreviewYouTubeVideo": {
+      "ai_tool": [
+        [
+          {
+            "node": "Anime Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getQuotesbyAnime": {
+      "ai_tool": [
+        [
+          {
+            "node": "Anime Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getQuotesbyCharacter": {
+      "ai_tool": [
+        [
+          {
+            "node": "Anime Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getRandomQuote": {
+      "ai_tool": [
+        [
+          {
+            "node": "Anime Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "animeCharacterSearch": {
+      "ai_tool": [
+        [
+          {
+            "node": "Anime Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getAnimeRecommendationsById": {
+      "ai_tool": [
+        [
+          {
+            "node": "Anime Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getMangaRecommendationsById": {
+      "ai_tool": [
+        [
+          {
+            "node": "Manga Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "mangaCharacterSearch": {
+      "ai_tool": [
+        [
+          {
+            "node": "Manga Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "6ea8d813-a004-4ec1-bd37-0c6b73aa008b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "db0ae69db30f77740cd49adc50b1981a4e69f85018ea82dabbc9ec703556c5de"
+  },
+  "id": "FbMZDtMGOUarMSOZ",
+  "tags": []
+}
