@@ -16,7 +16,7 @@
 
 ### ✨ Key Features
 
-- 🤖 **Multi-Agent AI System** powered by Google Gemini 2.5 Flash Lite
+- 🤖 **Multi-Agent AI System** powered by Google Gemini Flash series
 - 🎯 **Dual Chat Interfaces**: Telegram Bot + Streamlit Web App
 - 🌸 **Anime & Manga Source Integration** via Jikan APIs (MyAnimeList unofficial API)
 - 💬 **Anime Character Quotes** retrieve from Animechan APIs
@@ -54,22 +54,22 @@
 ### Technology
 ```
 User Input (Telegram/Web App)
-↓
+          ↓
 Telegram Bot / Streamlit
-↓
+          ↓
 n8n Workflow Engine
-↓
+          ↓
 Multi-Agent System:
-├── Supervisor Agent (Assign tasks, Decision making, Routes queries)
+├── Supervisor Agent (Assign tasks, Decision making)
 ├── Anime Agent (Anime queries)
 └── Manga Agent (Manga queries)
-↓
+          ↓
 External Tools:
 ├── Jikan APIs (MyAnimeList)
 ├── Animechan APIs (Anime quotes)
 ├── Mongodb (Persistent chat memory)
 └── Travily MCP (Web search)
-↓
+          ↓
 Response via webhook
 ```
 
@@ -81,7 +81,7 @@ Response via webhook
 | **Render** | 750 hours/month | Docker container hosting |
 | **Streamlit Cloud** | 1 GB resource limit | Web app hosting |
 | **Telegram** | Free | Telegram Bot |
-| **Google AI Studio** | Keep changing, pls refer to offical docs | Gemini model |
+| **Google AI Studio** | Keep changing, pls refer to official docs | Gemini model |
 | **Supabase** | 500 MB db storage | Authentication & n8n workflow persistence |
 | **MongoDB Atlas** | 512MB | Chat history storage |
 | **Travily** | 1000 searches/month | Web search capabilities |
@@ -113,10 +113,10 @@ pip install -r requirements.txt
 ```
 
 ### 4. Setup and host n8n on Render
-- You need to use Render to host the n8n docker image (u can get this via n8n offcial provider from Docker Hub)
+- You need to use Render to host the n8n docker image (u can get this via n8n official provider from Docker Hub)
 - After hosting, open the n8n and import `n8n_workflow (2).json` (download this from the project structure) and fill up your service credentials.
 
-### 4. Environment Setup
+### 5. Environment Setup
 Create a `.env` file in the root directory:
 ```env
 # n8n Configuration
@@ -151,18 +151,18 @@ N8N_PORT=5678
 WEBHOOK_URL=xxxxx.onrender.com
 ```
 
-### 5. Run Locally
+### 6. Run Locally
 ```bash
 streamlit run main.py
 ```
 
-### 6. Run on Streamlit Cloud
+### 7. Run on Streamlit Cloud
 If you want to run on Streamlit Cloud, make sure u push your repos to GitHub and allow Streamlit Cloud to access, and then just paste your `.env` in secrets section provided by Streamlit Cloud.
 
 ## 🛠️ Challenges & Solutions
 
 ### 1. Render Free Tier Limitations
-**Challenge**: Render free tier sleeps after 15 minutes of inactivity, causing n8n workflows to lose state.
+>**Challenge**: Render free tier sleeps after 15 minutes of inactivity, causing n8n workflows to lose state.
 
 **Solutions**: 
 - Use **Uptime Robot** for automated pinging every 10 minutes.
@@ -170,20 +170,20 @@ If you want to run on Streamlit Cloud, make sure u push your repos to GitHub and
 - Configure n8n to use external database `Supabase PostgreSQL` instead of file-based storage `SQLite`.
 
 ### 2. IPv4/IPv6 Compatibility Issues
-**Challenge**: Render only supports IPv4 while Supabase uses IPv6 connections.
+>**Challenge**: Render only supports IPv4 while Supabase uses IPv6 connections.
 
 **Solution**:
 - Use Supabase **session pooler** for db connection pooling.
 
 ### 3. Parameter Passing in n8n
-**Challenge**: Complex multi-agent workflows require careful state management between nodes.
+>**Challenge**: Complex multi-agent workflows require careful state management between nodes.
 
-**Solution**: 
+**Solutions**: 
 - Understand n8n's built-in data flow mechanisms.
 - Design workflows with clear input/output contracts.
 
 ### 4. Authentication Trade-offs
-**Challenge**: Using Supabase anon key instead of proper JWT tokens for simplicity.
+>**Challenge**: Using Supabase anon key instead of proper JWT tokens for simplicity.
 
 **Solutions**:
 - Implement email existence checking via dummy login attempts.
@@ -191,7 +191,7 @@ If you want to run on Streamlit Cloud, make sure u push your repos to GitHub and
 - Focus on showcasing AI agent capabilities over security.
 
 ### 5. Prompt Engineering
-**Challenge**: Optimizing AI responses for anime/manga context while maintaining accuracy.
+>**Challenge**: Optimizing AI responses for anime/manga context while maintaining accuracy.
 
 **Solutions**:
 - Iterative prompt testing and refinement.
@@ -200,7 +200,7 @@ If you want to run on Streamlit Cloud, make sure u push your repos to GitHub and
 ## ⚠️ Limitations & Considerations
 
 ### Performance Limitations
-- **Response Time**: 10-20 seconds per query (due to multi-agent complex processing instead of like LLM RAG 2-5 sec)
+- **Response Time**: 10-20 seconds per query (due to multi-agent complex processing instead of like LLM RAG 2-5 secs)
 - **Rate Limits**: Various API quotas across all free tier services
 
 ### Technical Limitations
@@ -211,23 +211,27 @@ If you want to run on Streamlit Cloud, make sure u push your repos to GitHub and
 
 ## 📸 Screenshots
 
-### Main Chat Interface
-*[Add screenshot of Streamlit chat interface]*
+#### n8n Workflow Architecture
+![](screenshots/n8n.png)
+*n8n workflow*
 
-### n8n Workflow Architecture
-*[Add screenshot of n8n workflow nodes and connections]*
+#### Chat Interface
+![](screenshots/streamlit.png)
+*Streamlit web app*
 
-### Telegram Bot Integration
-*[Add screenshot of Telegram bot in action]*
+![](screenshots/telegramBot.png)
+*Telegram Bot*
 
 ## 🤖 AI Agent Prompts
 Detailed system prompts for all agents used in n8n: [`prompts.md`](prompts.md)
+
 *You can change/modify according to your needs & style. Here's for a view, to change, go to your n8n agent nodes*
 
 ## 🙏 Acknowledgments
 
 - **MyAnimeList** for the comprehensive anime/manga info
-  *MyAnimeList is one of the largest and most popular anime/manga databases & platform worldwide*
+
+  > *MyAnimeList is one of the largest and most popular anime/manga databases & platform worldwide*
 - **Jikan API** for providing unofficial APIs access to MyAnimeList
 - **Animechan** for anime character quotes APIs
 
@@ -235,5 +239,5 @@ Detailed system prompts for all agents used in n8n: [`prompts.md`](prompts.md)
 
 <div align="center">
   <p><strong>🍣💎 Built for anime and manga enthusiasts</strong></p>
-  <p><em>Showcasing the power of combining multiple free services into end to end solutions.</em></p>
+  <p><em>Showcasing the power of combining LLM and multiple free services into end to end solutions.</em></p>
 </div>
